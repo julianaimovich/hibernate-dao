@@ -23,18 +23,19 @@ public class Persons {
 
     private String cityOfLiving;
 
+    @Data
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     @Embeddable
     public static class PersonData implements Serializable {
-        @Column(nullable = false)
+        @Column(name = "name", nullable = false)
         private String name;
 
-        @Column(nullable = false)
+        @Column(name = "surname", nullable = false)
         private String surname;
 
-        @Column(nullable = false)
+        @Column(name = "age", nullable = false)
         private int age;
     }
 }

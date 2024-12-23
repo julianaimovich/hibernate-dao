@@ -24,6 +24,6 @@ public class PersonsRepository {
     public List<Persons> getPersonsByCity(String city) {
         Query query = entityManager.createNamedQuery("findPersonsByCity", Persons.class);
         query.setParameter("city", city);
-        return (List<Persons>) query.getResultList();
+        return query.getResultList();
     }
 }
