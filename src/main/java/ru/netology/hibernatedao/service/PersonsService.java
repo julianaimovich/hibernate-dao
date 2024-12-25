@@ -1,22 +1,33 @@
 package ru.netology.hibernatedao.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.netology.hibernatedao.entity.Persons;
 import ru.netology.hibernatedao.repository.PersonsRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonsService {
-    @Autowired
-    PersonsRepository personsRepository;
+    private final PersonsRepository personsRepository;
+
+    public PersonsService(PersonsRepository personsRepository) {
+        this.personsRepository = personsRepository;
+    }
 
     public Persons addPerson(Persons person) {
-        return personsRepository.addPerson(person);
+        return personsRepository.save(person);
     }
 
     public List<Persons> getPersonsByCity(String city) {
-        return personsRepository.getPersonsByCity(city);
+        return personsRepository.findByCityOfLiving(city);
+    }
+
+    public List<Persons> getPersonsLessThanAge(int age) {
+        return personsRepository.findByPersonDataAgeLessThanOrderByPersonDataAgeAsc(age);
+    }
+
+    public Optional<Persons> getPersonsByNameAndSurname(String name, String surname) {
+        return personsRepository.findByPersonDataNameAndPersonDataSurname(name, surname);
     }
 }

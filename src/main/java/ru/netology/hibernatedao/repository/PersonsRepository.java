@@ -1,29 +1,19 @@
 package ru.netology.hibernatedao.repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import ru.netology.hibernatedao.entity.PersonData;
 import ru.netology.hibernatedao.entity.Persons;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class PersonsRepository {
-    @PersistenceContext
-    private EntityManager entityManager;
+public interface PersonsRepository extends JpaRepository<Persons, PersonData> {
 
-    @Transactional
-    public Persons addPerson(Persons person) {
-        entityManager.persist(person);
-        return person;
-    }
+    List<Persons> findByCityOfLiving(String firstName);
 
-    @Transactional
-    public List<Persons> getPersonsByCity(String city) {
-        Query query = entityManager.createNamedQuery("findPersonsByCity", Persons.class);
-        query.setParameter("city", city);
-        return query.getResultList();
-    }
+    List<Persons> findByPersonDataAgeLessThanOrderByPersonDataAgeAsc(int age);
+
+    Optional<Persons> findByPersonDataNameAndPersonDataSurname(String name, String surname);
 }
